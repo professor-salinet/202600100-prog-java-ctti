@@ -3,7 +3,7 @@ import java.util.concurrent.*;
 public class Forca {
     public static void main(String[] args) {
         limparTela();
-        System.out.println("Bem vindo ao jogo da Forca!");
+        System.out.println("Bem vindo(a) ao jogo da Forca!");
         dormir(3000);
         jogarForca();
     }
@@ -25,12 +25,19 @@ public class Forca {
         String caracterAtual = caracterCoringa;
         String letraVerificada = "";
         int numeroTentativas = 7 + palavraSorteada.length();
+        String letraDigitada = "";
+        boolean letraRepetida = false;
 
         while (sair == false) {
             limparTela();
             if (numeroTentativas == 0) {
                 System.out.println("Você perdeu e alcançou o número máximo de tentativas! Tente outra vez...");
+                jogarNovamente(); //?
                 break;
+            }
+
+            if (letraRepetida) {
+                System.out.println("Ops! Você já jogou essa letra... Que tal escolher outra letra?");
             }
 
             System.out.println("Você ainda tem " + numeroTentativas + " tentativa(s).");
@@ -56,7 +63,10 @@ public class Forca {
                 System.out.println("Você jogou a(s) letra(s): " + letrasJogadas.toString());
             }
             System.out.println("Digite uma letra, ou a palavra inteira, e tecle Enter para jogar, ou digite \"sair\" e tecle Enter para sair do jogo.");
+
             respostaUsuario = inputScanner.nextLine().trim().toLowerCase();
+            letraDigitada = respostaUsuario;
+
             if (respostaUsuario.equals("sair")) {
                 sair = true;
                 System.out.println("Até mais!");
@@ -65,7 +75,15 @@ public class Forca {
 
             if (respostaUsuario.equals(palavraSorteada)) {
                 System.out.println("Uau! Você é demais, pois acertou a palavra \"" + palavraSorteada + "\" na mosca...");
+                jogarNovamente(); //?
                 break;
+            }
+
+            letraRepetida = false;
+            for (int i = 0; i < letrasJogadas.size(); i++) {
+                if (respostaUsuario.equals(letrasJogadas.get(i))) {
+                    letraRepetida = true;
+                }
             }
 
             letrasJogadas.add(respostaUsuario);
@@ -80,17 +98,25 @@ public class Forca {
 
             if (letrasRestantes.length() == 0) {
                 System.out.println("Você venceu, Parabéns! A palavra é: " + palavraSorteada);
-                System.out.println("Jogar novamente?");
-                System.out.println("Digite s para sim e n para não, depois tecle Enter para confirmar.");
-                respostaUsuario = inputScanner.nextLine().trim().toLowerCase();
-                if (respostaUsuario.equals("s")) {
-                    jogarForca();
-                } else {
-                    System.out.println("Até mais!");
-                }
+                jogarNovamente(); //?
                 break;
             }
             numeroTentativas--;
+        }
+        inputScanner.close();
+    }
+
+    public static void jogarNovamente() {
+        Scanner inputScanner = new Scanner(System.in);
+        String respostaUsuario;
+        System.out.println("Jogar novamente?");
+        System.out.println("Digite s para sim e n para não, depois tecle Enter para confirmar.");
+        respostaUsuario = inputScanner.nextLine().trim().toLowerCase();
+        if (respostaUsuario.equals("s")) {
+            jogarForca();
+        } else {
+            System.out.println("Até mais!");
+            System.exit(0);
         }
         inputScanner.close();
     }
@@ -116,3 +142,11 @@ public class Forca {
         }
     }
 }
+
+/**
+ * Terminal terminal = new DefaultTerminalFactory().createTerminal();
+ * KeyStroke keyStroke = terminal.readInput();
+ * if (keyStroke.getKeyType() == KeyType.ArrowUp) {
+ *     // Seta para cima pressionada!
+ * }
+ */
