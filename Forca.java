@@ -26,7 +26,8 @@ public class Forca {
         int letrasErradas = 0;
         String caracterAtual = caracterCoringa;
         String letraVerificada = "";
-        int numeroTentativas = 7 + palavraSorteada.length();
+        int numeroErros = 7;
+        int numeroTentativas = numeroErros + palavraSorteada.length();
         String letraDigitada = "";
         boolean letraRepetida = false;
 
@@ -96,6 +97,7 @@ public class Forca {
                 letrasFaltando = letrasRestantes.length();
             } else {
                 letrasErradas++;
+                numeroErros--;
             }
 
             if (letrasRestantes.length() == 0) {
@@ -103,7 +105,7 @@ public class Forca {
                 jogarNovamente(); //?
                 break;
             }
-            numeroTentativas -= tamanhoPalavra - letrasFaltando;
+            numeroTentativas = numeroErros + letrasFaltando;
         }
         inputScanner.close();
     }
