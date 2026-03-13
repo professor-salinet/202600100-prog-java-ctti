@@ -15,8 +15,8 @@ public class Forca {
         String respostaUsuario;
         ArrayList<String> letrasJogadas = new ArrayList<>();
         int indiceAleatorio = ThreadLocalRandom.current().nextInt(palavra.length);
-        // String palavraSorteada = palavra[indiceAleatorio];
-        String palavraSorteada = palavra[4];
+        String palavraSorteada = palavra[indiceAleatorio];
+        // String palavraSorteada = palavra[4];
         String letrasRestantes = palavraSorteada;
         int tamanhoPalavra = palavraSorteada.length();
         int letrasFaltando = palavraSorteada.length();
